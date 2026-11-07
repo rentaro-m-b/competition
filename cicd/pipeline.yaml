@@ -2,20 +2,5 @@ agents:
   queue: "local"
 
 steps:
-  - label: "Build image"
-    command:
-    # Githubからソースコードを全てエージェントにコピーする
-    # コンテナイメージをビルドする
-    # コンテナイメージをDockerHugにpushする
-  - label: "Deploy for e2e running"
-    command:
-    # テスト環境用のマニフェストを作成OR更新する
-    # ArgoCDにてSyncしてテスト環境にデプロイする
-  - label: "Run e2e"
-    command:
-    # E2Eをプルする
-    # テスト環境用の環境変数をセット（不要の可能性はある）してE2Eを走らせる
-  - label: "Deploy"
-    command:
-    # 本番環境用のマニフェストを作成OR更新する
-    # ArgoCDにてSyncして本番環境にデプロイする
+  - label: Hello, World
+    command: echo "Hello, World"

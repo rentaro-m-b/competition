@@ -1,9 +1,0 @@
-agents:
-  queue: "local"
-
-steps:
-  - label: Hello, World
-    command: echo "Hello, World"
-  - label: push image
-    command: docker build -t "$HARBOR/library/sample:test" .
-docker push "$HARBOR/library/competition:0.0.1"

@@ -12,4 +12,4 @@ steps:
     commands:
       - TAG="$${BUILDKITE_COMMIT:0:7}"
       - docker build -t "$$HARBOR/library/competition:$$TAG" ./backend
-      - docker push "$$HARBOR/$$IMAGE_NAME:$$TAG"
+      - docker push "$$HARBOR/competition:$$TAG"

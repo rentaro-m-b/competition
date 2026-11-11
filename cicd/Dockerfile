@@ -1,15 +1,14 @@
-FROM elixir:otp-29-alpine AS builder
-
+FROM elixir:otp-29 AS build
 WORKDIR /app
-
 COPY . .
+ENV MIX_ENV=prod
+RUN mix deps.get --only $MIX_ENV 
+RUN mix release
 
-CMD MIX_ENV=prod mix release
-
-FROM alpine:3.24.4 AS executor
-
+FROM debian:trixie-slim
 WORKDIR /app
-
-COPY --from=builder /app/_build/prod/rel /app
-
-
+RUN chown nobody /app
+ENV MIX_ENV=prod
+COPY --chown=nobody:root --from=build /app/_build/prod/rel/competition ./
+USER nobody
+CMD ["bin/competition", "start"]

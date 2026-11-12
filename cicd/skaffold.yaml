@@ -1,0 +1,16 @@
+apiVersion: skaffold/v4beta14
+kind: Config
+metadata:
+  name: competition
+build:
+  artifacts:
+    - image: competition
+      context: ../backend
+      docker:
+        dockerfile: Dockerfile
+  tagPolicy:
+    gitCommit:
+      variant: AbbrevCommitSha
+  local:
+    push: false
+    useBuildkit: true

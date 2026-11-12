@@ -14,3 +14,9 @@ build:
   local:
     push: false
     useBuildkit: true
+manifests:
+  helm:
+    releases:
+      - name: competition
+        chartPath: ./app
+        

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: competition
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: competition
+  template:
+    metadata:
+      labels:
+        app: competition
+    spec:
+      containers:
+        - name: competition
+          image: competition
+          ports:
+            containerPort: 80

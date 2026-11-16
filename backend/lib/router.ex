@@ -8,11 +8,9 @@ defmodule Competition.Router do
     send_resp(conn, 200, Jason.encode!(%{ping: "pong"}))
   end
 
-  get "/hoge" do
+  get "/transactions" do
+    # TODO: create usecase
     send_resp(conn, 200, Jason.encode!(%{hoge: "pong"}))
-  end
-  post "/fuga" do
-    send_resp(conn, 200, Jason.encode!(%{fuga: "pong"}))
   end
 
   match _ do

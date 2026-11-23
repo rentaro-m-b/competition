@@ -4,25 +4,41 @@ out vec4 fragColor;
 uniform vec2 u_resolution;
 int channel;
 uniform float u_time;
+
+const float PI = 3.1415926;
+float atan2(float y, float x) {
+    if (x == 0.0) {
+        return sign(y) * PI / 2.0;
+    } else {
+        return atan(y, x);
+    }
+}
+
+vec2 xy2pol(vec2 xy) {
+    return vec2(atan2(xy.y, xy.x), length(xy));
+}
+
+vec2 pol2xy(vec2 pol) {
+    return pol.y * vec2(cos(pol.x), sin(pol.x));
+}
+
+vec3 tex(vec2 st) {
+    float time = 0.2 * u_time;
+    vec3 circ = vec3(pol2xy(vec2(time, 0.5)) + 0.5, 1.0);
+    vec3[3] col3 = vec3[](
+        circ.rgb, circ.gbr, circ.brg
+    );
+    st.s = st.s / PI + 1.0;
+    st.s += time;
+    int idx = int(st.s);
+    vec3 col = mix(col3[idx % 2], col3[(idx + 1) % 2], fract(st.s));
+    return mix(col3[2], col, st.t);
+}
+
 void main() {
     vec2 pos = gl_FragCoord.xy / u_resolution.xy;
-    vec3[4] col4 = vec3[] (
-        vec3(1.0,0,0),
-        vec3(0,1.0,0),
-        vec3(0,0,1.0),
-        vec3(1.0,1.0,0)
-    );
-    float n = 4.0;
-    pos *= n;
-    channel = int(2.0 * gl_FragCoord.x / u_resolution.x);
-    if (channel == 0) {
-      pos = floor(pos) + step(0.5, fract(pos));
-    } else {
-        float thr = 0.25 * sin(u_time);
-        pos = floor(pos) + smoothstep(0.25 + thr, 0.75 - thr, fract(pos));
-    }
-    pos /= n;
-    vec3 col = mix(mix(col4[0], col4[1], pos.x), mix(col4[2], col4[3], pos.x), pos.y);
-    fragColor = vec4(col, 1.0);
-
+    pos = 2.0 * pos.xy - vec2(1.0);
+    pos = xy2pol(pos);
+    fragColor = vec4(tex(pos), 1.0);
 }
+

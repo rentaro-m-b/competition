@@ -6,6 +6,6 @@ def euclidean_algorithm(x, y):
         remainder = x % y
         x = y
         y = remainder
-    print(f"GCD is {x}")
+    print(f'GCD is {x}')
 
 euclidean_algorithm(10,2)
